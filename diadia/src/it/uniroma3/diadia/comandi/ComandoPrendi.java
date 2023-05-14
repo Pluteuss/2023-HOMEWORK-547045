@@ -1,44 +1,32 @@
 package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IO;
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-public class ComandoPrendi implements Comando{
-	
-	private IO console;
+public class ComandoPrendi implements Comando {
+
+	private IO io;
 	private String nomeAttrezzo;
 	private final static String NOME = "prendi";
-	
-	public ComandoPrendi (IO console) {
-		
-		this.console = console;
-	}
 
+	
 	@Override
 	public void esegui(Partita partita) {
-		
 		Attrezzo a = partita.getLabirinto().getStanzaCorrente().getAttrezzo(nomeAttrezzo);
-		
-		if( a == null) {
-			console.mostraMessaggio("Inserisci attrezzo!");
-		}
-		else if(partita.getGiocatore().getBorsa().getPesoRimanente(a)) {
+		if(partita.getGiocatore().getBorsa().getPesoRimanente(a)) {
 			partita.getGiocatore().getBorsa().addAttrezzo(a);
 			partita.getLabirinto().getStanzaCorrente().removeAttrezzo(a);
-			console.mostraMessaggio("Attrezzo preso");
-		}
+		} 
 		else {
-			console.mostraMessaggio("Attrezzo troppo pesante per entrare nella borsa!");
+			io.mostraMessaggio("Attrezzo troppo pesante per entrare nella borsa!");
 		}
-		
 	}
 
 	@Override
 	public void setParametro(String parametro) {
-		this.nomeAttrezzo = parametro;
-		
+		this.nomeAttrezzo  = parametro;
+
 	}
 
 	@Override
@@ -47,16 +35,13 @@ public class ComandoPrendi implements Comando{
 	}
 
 	@Override
-	public void setIO(IO console) {
-		this.console = console;
-		
+	public void setIo(IO io) {
+		this.io = io;
 	}
-
+	
 	@Override
 	public String getNome() {
 		return NOME;
 	}
-
-
 
 }
